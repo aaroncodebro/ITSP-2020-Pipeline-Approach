@@ -16,6 +16,7 @@ cv2.imshow("thresh", thresh)
 #cv2.imshow("dilate", dilate)
 im_floodfill = thresh.copy()
 
+
 # Mask used to flood filling.
 # Notice the size needs to be 2 pixels than the image.
 h, w = thresh.shape[:2]
