@@ -148,10 +148,7 @@ def func(xi,xf,yi,yf):
                     seq = seq + '\\'+'frac'+'{'+'{}'.format(num)+'}'+'{'+'{}'.format(den)+'}'
                     done[idx] = 1
 
-            elif(bcor[4] == 12):
-                seq = seq + 'x'
-                print(bcor)
-                done[idx] = 1
+            
 
             elif(bcor[4] == -1):
                 inside_sqrt = func(bcor[0], bcor[0] + bcor[2], bcor[1], bcor[1] + bcor[3])
@@ -163,11 +160,15 @@ def func(xi,xf,yi,yf):
                     seq = seq  + '+'
                     done[idx] = 1
                 else:
-                    seq = seq + str(bcor[4])
+                    if(bcor[4]==12):
+                        seq = seq + 'x'
+                    else:
+                        seq = seq + str(bcor[4])
+
                     done[idx] = 1
                     for exp_cor in box_coordinates:
                         if(((exp_cor[0]>xi)and(exp_cor[0]<xf))and((exp_cor[1]>yi) and (exp_cor[1]<yf))):
-                            if((exp_cor[1]+0.03*exp_cor[3]<bcor[1])and(exp_cor[0]>bcor[0])and (exp_cor[0]<bcor[0]+bcor[2]+15)):
+                            if((exp_cor[1]+exp_cor[3]-bcor[1]<0.75*bcor[3])and(exp_cor[0]>bcor[0])and (exp_cor[0]<bcor[0]+bcor[2]+15)):
                                 seq = seq  + '^'
                                 break
 
