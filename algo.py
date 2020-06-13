@@ -48,7 +48,7 @@ model.load_weights('pipeline.h5')
 ################### IMAGE ANALYSIS ##############################
 
 
-original_image = cv2.imread("test2.png")
+original_image = cv2.imread("test1.png")
 image = original_image.copy()
 
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -89,7 +89,6 @@ for c in cnts:
 
     roi = cv2.resize(roi,(SIZE,SIZE))
 
-
     roi = np.expand_dims(roi, 2) 
 
     test = np.zeros((1, SIZE, SIZE, 1), dtype = np.uint8)
@@ -98,18 +97,34 @@ for c in cnts:
 
     tag = np.argmax(model.predict(test))
 
-    box_coordinates.append((x,y,w,h,tag))
+    box_coordinates.append([x,y,w,h,tag])
     done.append(0)
     idx +=1
-    
 
+
+box_idx = 0
+
+for bcor in box_coordinates:
+    
+    count = 0
+    for con_cor in box_coordinates:
+        if con_cor == bcor:
+            continue
+            
+        if con_cor[0] > bcor[0] and (con_cor[0] + con_cor[2]) < (bcor[0] + bcor[2]) and con_cor[1] > bcor[1] and (con_cor[1] + con_cor[3]) < (bcor[1] + bcor[3]):
+            count += 1
+
+    if count >= 1:
+        box_coordinates[box_idx][4] = -1
+
+    box_idx += 1
+       
 def Sort_Tuple(tup):  
  
     tup.sort(key = lambda x: x[0])  
     return tup  
 Sort_Tuple(box_coordinates)
-
-	
+ 
 img_y, img_x, _  = image.shape
 
 
@@ -122,7 +137,8 @@ def func(xi,xf,yi,yf):
             idx+=1
             continue
         if(((bcor[0]>xi)and(bcor[0]<xf))and((bcor[1]>yi) and (bcor[1]<yf))):
-            if(bcor[4]==10):
+            
+            if(bcor[4] == 10):
                 den = func(bcor[0],bcor[0]+bcor[2],bcor[1],yf)
                 num = func(bcor[0],bcor[0]+bcor[2],yi,bcor[1])
                 if((den=='')and(num=='')):
@@ -131,6 +147,11 @@ def func(xi,xf,yi,yf):
                 else:
                     seq = seq + '\\'+'frac'+'{'+'{}'.format(num)+'}'+'{'+'{}'.format(den)+'}'
                     done[idx] = 1
+
+            elif(bcor[4] == -1):
+                inside_sqrt = func(bcor[0], bcor[0] + bcor[2], bcor[1], bcor[1] + bcor[3])
+                seq = seq + '\\' + 'sqrt' + '{' + '{}'.format(inside_sqrt) + '}'
+                done[idx] = 1
             
             else:
                 if(bcor[4]==11):
