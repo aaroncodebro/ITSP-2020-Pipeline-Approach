@@ -7,6 +7,7 @@ from keras.models import Sequential
 
 import cv2
 import matplotlib.pyplot as plt
+import json
 
 
 ########################## LOAD MODEL ###################################
@@ -41,6 +42,7 @@ model.add(BatchNormalization(axis = 1))
 model.add(Dropout(0.5))
 model.add(Dense(13, activation = "softmax"))
 
+
 model.load_weights('model_script_params.h5')
 
 ##################################################################
@@ -48,7 +50,7 @@ model.load_weights('model_script_params.h5')
 ################### IMAGE ANALYSIS ##############################
 
 
-original_image = cv2.imread("test6.png")
+original_image = cv2.imread("test7.png")
 image = original_image.copy()
 
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

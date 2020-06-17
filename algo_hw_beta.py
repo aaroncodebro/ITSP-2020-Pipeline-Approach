@@ -48,7 +48,9 @@ model.load_weights('model_script_params.h5')
 ################### IMAGE ANALYSIS ##############################
 
 
-original_image = cv2.imread("test6.png")
+original_image = cv2.imread("htest1.jpg")
+original_image = cv2.convertScaleAbs(original_image, alpha=1.5, beta=0)
+
 image = original_image.copy()
 
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -90,9 +92,15 @@ for c in cnts:
     
     roi = image_bin[y-2:y+2+h,x-2:x+w+2]
 
+
     roi = cv2.resize(roi,(SIZE,SIZE))
 
     roi = np.expand_dims(roi, 2) 
+
+                          
+                        
+    cv2.imwrite(str(idx)+ '.jpg', roi)
+    
 
     test = np.zeros((1, SIZE, SIZE, 1), dtype = np.uint8)
 
