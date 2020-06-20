@@ -1,0 +1,65 @@
+body{
+	/* background-image: url(https://wallpaperplay.com/walls/full/c/5/5/113079.jpg); */
+	background-image: url(https://wallpaperplay.com/walls/full/1/1/2/113081.jpg);
+    /* background-repeat: no-repeat; */
+    background-size: cover;
+}
+header h1{
+	text-align: center;
+	font-size: 40px;
+	margin-top: 0px; 
+	padding-top: 17px;
+    padding-bottom: 43px; 
+	float: left;
+}
+header{
+	border: 5px solid #cc6600;
+	width: 100%;
+	height: 85px;
+	margin-top: 0px;
+	margin-bottom: 80px;
+	/* background-image: linear-gradient(to left, #ffff00, #ffffb3); */
+	background-image: linear-gradient(to left, yellow, yellow);
+	border-radius: 16px;
+}
+.one{
+    position: relative;
+    animation-name: example;
+    animation-duration: 3200s;
+}
+@keyframes example {
+    0%   {left:0px; top:0px;opacity: 0;}
+    0.1%  {left:34%; top:0px;opacity: 1;text-align: center;}
+    50%  {left:34%; top:0px;text-align: center;}
+    75%  {left:34%; top:0px; text-align: center;}
+    100% {left:34%; top:0px;text-align: center;}
+}
+.two{
+	height: 80px;
+	padding-top: 40px;
+	margin-top: 10px;
+}
+#three{
+	margin-top: 50px;
+}
+#four{
+	/* padding-left: 695px; */
+	/* padding-top: 0px; */
+	width: 100%;
+	background-color: none;
+	margin-top: 0px;
+	padding-left: 30%;
+	padding-top: 0px;
+	margin-bottom: 0px;
+}
+.box{
+	background-color: none;
+	width: 30%;
+	/* background-color: #ffff4d; */
+	background-image: linear-gradient(to left, red, orange);
+	margin-left: 35%;
+	height: 200px;
+	margin-top: 150px;
+	border-radius: 50px;
+	border: 3px solid #cc6600;
+}
