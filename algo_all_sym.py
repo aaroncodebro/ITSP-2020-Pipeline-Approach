@@ -36,12 +36,12 @@ model.add(Dropout(0.25))
 
 
 model.add(Flatten())
-model.add(Dense(256, activation = "relu"))
+model.add(Dense(1024, activation = "relu"))
 model.add(BatchNormalization(axis = 1))
 model.add(Dropout(0.5))
-model.add(Dense(13, activation = "softmax"))
+model.add(Dense(22, activation = "softmax"))
 
-model.load_weights('model_script_params.h5')
+model.load_weights('mini_model.h5')
 
 ##################################################################
 
@@ -87,6 +87,7 @@ def get_integral(image_path):
 
 box_coordinates=[]
 done = []
+
 def get_latex_and_scipy(contours):
     global box_coordinates, done
     
@@ -154,7 +155,7 @@ def func(xi,xf,yi,yf):
             continue
         if(((bcor[0]>xi)and(bcor[0]<xf))and((bcor[1]>yi) and (bcor[1]<yf))):
             
-            if(bcor[4] == 10):
+            if(bcor[4] == 8):
                 (den_latex, den_scipy) = func(bcor[0],bcor[0]+bcor[2],bcor[1],yf)
                 (num_latex, num_scipy) = func(bcor[0],bcor[0]+bcor[2],yi,bcor[1])
                 if((den_latex=='')and(num_latex=='')) and ((den_scipy=='')and(num_scipy=='')):
@@ -175,17 +176,82 @@ def func(xi,xf,yi,yf):
                 done[idx] = 1
             
             else:
-                if(bcor[4]==11):
+                if(bcor[4] == 13):
                     seq = seq  + '+'
                     sci = sci + '+'
                     done[idx] = 1
                 else:
-                    if(bcor[4]==12):
+                    if(bcor[4] == 20):
                         seq = seq + 'x'
                         sci = sci + 'x'
-                    else:
-                        seq = seq + str(bcor[4])
-                        sci = sci + str(bcor[4])
+                    
+                    elif(bcor[4] == 2):
+                        seq = seq + 'a'
+                        sci = sci + 'a'
+
+                    elif(bcor[4] == 3):
+                        seq = seq + 'c'
+                        sci = sci + 'c'
+
+                    elif(bcor[4] == 4):
+                        seq = seq + 'e'
+                        sci = sci + 'e'
+
+                    elif(bcor[4] == 5):
+                        seq = seq + '5'
+                        sci = sci + '5'
+
+                    elif(bcor[4] == 6):
+                        seq = seq + '4'
+                        sci = sci + '4'
+
+                    elif(bcor[4] == 7):
+                        seq = seq + '\infty'
+                        sci = sci + 'inf'
+
+                    elif(bcor[4] == 9):
+                        seq = seq + 'n'
+                        sci = sci + 'n'
+
+                    elif(bcor[4] == 10):
+                        seq = seq + '9'
+                        sci = sci + '9'
+
+                    elif(bcor[4] == 11):
+                        seq = seq + '1'
+                        sci = sci + '1'
+
+                    elif(bcor[4] == 12):
+                        seq = seq + '\pi'
+                        sci = sci + 'pi'
+
+                    elif(bcor[4] == 14):
+                        seq = seq + 's'
+                        sci = sci + 's'
+
+                    elif(bcor[4] == 15):
+                        seq = seq + '7'
+                        sci = sci + '7'
+
+                    elif(bcor[4] == 16):
+                        seq = seq + '6'
+                        sci = sci + '6'
+
+                    elif(bcor[4] == 17):
+                        seq = seq + 't'
+                        sci = sci + 't'
+
+                    elif(bcor[4] == 18):
+                        seq = seq + '3'
+                        sci = sci + '3'
+
+                    elif(bcor[4] == 19):
+                        seq = seq + '2'
+                        sci = sci + '2'
+                    
+                    elif(bcor[4] == 21):
+                        seq = seq + '0'
+                        sci = sci + '0'
 
                     done[idx] = 1
                     for exp_cor in box_coordinates:
@@ -206,7 +272,7 @@ def rectify_scipy(scipy):
 
     scipy_rectified = ''
     blacklist_num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    blacklist_var = ['x']
+    blacklist_var = ['x', 'pi']
 
     for i in range(len(scipy)):
 

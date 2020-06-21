@@ -1,6 +1,6 @@
 import scipy.integrate as integrate
 
-from numpy import sqrt, sin, cos, tan, pi
+from numpy import sqrt, sin, cos, tan, pi, inf
 from algo_all_sym import *
 
 image_path = "test6.png"
