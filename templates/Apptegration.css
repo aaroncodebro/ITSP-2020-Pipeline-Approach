@@ -55,6 +55,7 @@ header{
 .box{
 	background-color: none;
 	width: 30%;
+	align-items: center;
 	/* background-color: #ffff4d; */
 	background-image: linear-gradient(to left, red, orange);
 	margin-left: 35%;
@@ -62,4 +63,11 @@ header{
 	margin-top: 150px;
 	border-radius: 50px;
 	border: 3px solid #cc6600;
+}
+ 
+
+.limit{
+	float: center;
+	align-items: center;
+	padding: 50px;
 }
