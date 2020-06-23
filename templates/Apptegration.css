@@ -71,3 +71,18 @@ header{
 	align-items: center;
 	padding: 50px;
 }
+
+#latex_img{
+	display: inline;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#centered{
+	font-size:20px;
+	margin-top: 30px;
+	text-align: center;
+	margin-left: auto;
+    margin-right: auto;
+
+}
