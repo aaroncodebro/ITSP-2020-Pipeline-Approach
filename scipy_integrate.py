@@ -1,9 +1,10 @@
 import scipy.integrate as integrate
+import scipy.special as special
 
-from numpy import sqrt, sin, cos, tan, pi, inf, exp
+from numpy import sqrt, sin, cos, tan, pi, inf, exp, log, log10
 from algo_all_sym import *
 
-image_path = "test21.png"
+image_path = "Test Images/test27.png"
 
 (latex, scipy) = get_integral(image_path)
 

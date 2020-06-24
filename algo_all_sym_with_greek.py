@@ -22,7 +22,17 @@ model.add(Conv2D(filters = 32, kernel_size = (3,3), padding = 'Same',
                  activation ='relu'))
 model.add(BatchNormalization(axis = 3))
 model.add(Dropout(0.25))
+
+model.add(Conv2D(filters = 32, kernel_size = (3,3), padding = 'Same', 
+                 activation ='relu', input_shape = (64,64,1)))
+model.add(BatchNormalization(axis = 3))
+model.add(Conv2D(filters = 32, kernel_size = (3,3), padding = 'Same', 
+                 activation ='relu'))
+model.add(BatchNormalization(axis = 3))
+model.add(Dropout(0.25))
+
 model.add(MaxPool2D(pool_size=(2,2)))
+
 
 model.add(Conv2D(filters = 64, kernel_size = (5,5), padding = 'Same', 
                  activation ='relu'))
@@ -31,15 +41,34 @@ model.add(Conv2D(filters = 64, kernel_size = (5,5), padding = 'Same',
                  activation ='relu'))
 model.add(BatchNormalization(axis = 3))
 model.add(Dropout(0.25))
-model.add(MaxPool2D(pool_size=(2,2)))
 
-model.add(Conv2D(filters = 128, kernel_size = (5,5), padding = 'Same', 
+model.add(Conv2D(filters = 64, kernel_size = (5,5), padding = 'Same', 
                  activation ='relu'))
 model.add(BatchNormalization(axis = 3))
-model.add(Conv2D(filters = 128, kernel_size = (5,5), padding = 'Same', 
+model.add(Conv2D(filters = 64, kernel_size = (5,5), padding = 'Same', 
                  activation ='relu'))
 model.add(BatchNormalization(axis = 3))
 model.add(Dropout(0.25))
+
+model.add(MaxPool2D(pool_size=(2,2)))
+
+
+model.add(Conv2D(filters = 32, kernel_size = (3,3), padding = 'Same', 
+                 activation ='relu'))
+model.add(BatchNormalization(axis = 3))
+model.add(Conv2D(filters = 32, kernel_size = (3,3), padding = 'Same', 
+                 activation ='relu'))
+model.add(BatchNormalization(axis = 3))
+model.add(Dropout(0.25))
+
+model.add(Conv2D(filters = 32, kernel_size = (3,3), padding = 'Same', 
+                 activation ='relu'))
+model.add(BatchNormalization(axis = 3))
+model.add(Conv2D(filters = 32, kernel_size = (3,3), padding = 'Same', 
+                 activation ='relu'))
+model.add(BatchNormalization(axis = 3))
+model.add(Dropout(0.25))
+
 model.add(MaxPool2D(pool_size=(2,2)))
 
 
@@ -47,20 +76,22 @@ model.add(Flatten())
 model.add(Dense(1024, activation = "relu"))
 model.add(BatchNormalization(axis = 1))
 model.add(Dropout(0.5))
-model.add(Dense(23, activation = "softmax"))
+model.add(Dense(45, activation = "softmax"))
 
-model.load_weights('inc_model.h5')
+model.load_weights('monster_model.h5')
 
 ##################################################################
 
 ################### IMAGE ANALYSIS ##############################
 
-img_x = None
-img_y = None
-image_bin = None
+
 
 def get_integral(image_path):
     global img_x, img_y, image_bin
+
+    img_x = None
+    img_y = None
+    image_bin = None
     
     original_image = cv2.imread(image_path)
     image = original_image.copy()
@@ -93,11 +124,11 @@ def get_integral(image_path):
 
     return get_latex_and_scipy(cnts)
 
-box_coordinates=[]
-done = []
 
 def get_latex_and_scipy(contours):
     global box_coordinates, done
+    box_coordinates=[]
+    done = []
     
     idx=0
     for c in contours:
@@ -142,7 +173,6 @@ def get_latex_and_scipy(contours):
     latex, scipy = func(0,img_x,0,img_y)
 
     print(latex)
-
     scipy_rectified = rectify_scipy(scipy)
     latex_rectified = rectify_latex(latex)
 
@@ -171,7 +201,7 @@ def func(xi,xf,yi,yf):
         
         if(((bcor[0]>xi)and(bcor[0]<xf))and((bcor[1]>yi) and (bcor[1]<yf))):
             
-            if(bcor[4] == 3):
+            if(bcor[4] == 16):
                 
                 (den_latex, den_scipy) = func(bcor[0],bcor[0]+bcor[2],bcor[1],yf)
                 (num_latex, num_scipy) = func(bcor[0],bcor[0]+bcor[2],yi,bcor[1])
@@ -186,7 +216,7 @@ def func(xi,xf,yi,yf):
                     sci = sci + '(' + '{}'.format(num_scipy) + ')/(' + '{}'.format(den_scipy) + ')'  
                     done[idx] = 1
 
-            elif(bcor[4] == 13):
+            elif(bcor[4] == 25):
 
                 idx_x_i, idx_y_i = (bcor[0] + bcor[2], bcor[1])
 
@@ -212,11 +242,11 @@ def func(xi,xf,yi,yf):
 
                     if idx_1 >= idx + 1:
 
-                        if bcor_1[4] == 13:
+                        if bcor_1[4] == 25:
 
                             brackets.append((bcor_1, idx_1))
                         
-                        if bcor_1[4] == 15:
+                        if bcor_1[4] == 2:
 
                             brackets.append((bcor_1, idx_1))
 
@@ -226,10 +256,10 @@ def func(xi,xf,yi,yf):
 
                 for cor in brackets:
 
-                    if cor[0][4] == 13:
+                    if cor[0][4] == 25:
                         track += 1
 
-                    elif cor[0][4] == 15:
+                    elif cor[0][4] == 2:
                         track -= 1
 
                     if track == 0:
@@ -254,86 +284,114 @@ def func(xi,xf,yi,yf):
             
             else:
                 
-                if(bcor[4] == 0):
+                if(bcor[4] == 14):
                     seq = seq  + '+'
                     sci = sci + '+'
                     done[idx] = 1
                 
                 else:
                     
-                    if(bcor[4] == 5):
+                    if(bcor[4] == 41):
                         seq = seq + 'x'
                         sci = sci + 'x'
                     
-                    elif(bcor[4] == 4):
+                    elif(bcor[4] == 30):
                         seq = seq + 'a'
                         sci = sci + 'a'
 
-                    elif(bcor[4] == 2):
+                    elif(bcor[4] == 15):
                         seq = seq + '\c'
                         sci = sci + 'c'
 
-                    elif(bcor[4] == 11):
+                    elif(bcor[4] == 36):
                         seq = seq + 'e'
                         sci = sci + 'e'
 
-                    elif(bcor[4] == 6):
+                    elif(bcor[4] == 37):
                         seq = seq + '5'
                         sci = sci + '5'
 
-                    elif(bcor[4] == 8):
+                    elif(bcor[4] == 31):
                         seq = seq + '4'
                         sci = sci + '4'
 
-                    elif(bcor[4] == 7):
+                    elif(bcor[4] == 22):
                         seq = seq + 'n'
                         sci = sci + 'n'
 
-                    elif(bcor[4] == 10):
+                    elif(bcor[4] == 27):
                         seq = seq + '9'
                         sci = sci + '9'
 
-                    elif(bcor[4] == 20):
+                    elif(bcor[4] == 44):
                         seq = seq + '1'
                         sci = sci + '1'
 
-                    elif(bcor[4] == 19):
+                    elif(bcor[4] == 20):
                         seq = seq + '\pi'
                         sci = sci + 'pi'
 
-                    elif(bcor[4] == 22):
+                    elif(bcor[4] == 23):
                         seq = seq + '\s'
                         sci = sci + 's'
 
-                    elif(bcor[4] == 16):
+                    elif(bcor[4] == 4):
                         seq = seq + '7'
                         sci = sci + '7'
 
-                    elif(bcor[4] == 1):
+                    elif(bcor[4] == 11):
                         seq = seq + '6'
                         sci = sci + '6'
 
-                    elif(bcor[4] == 17):
+                    elif(bcor[4] == 26):
                         seq = seq + '\\t'
                         sci = sci + 't'
 
-                    elif(bcor[4] == 14):
+                    elif(bcor[4] == 21):
                         seq = seq + '3'
                         sci = sci + '3'
 
-                    elif(bcor[4] == 9):
+                    elif(bcor[4] == 32):
+                        seq = seq + 'l'
+                        sci = sci + 'l'
+
+                    elif(bcor[4] == 40):
+                        seq = seq + 'g10'
+                        sci = sci + 'g10'
+
+                    elif(bcor[4] == 35):
                         seq = seq + '2'
                         sci = sci + '2'
                     
-                    elif(bcor[4] == 18):
+                    elif(bcor[4] == 0):
                         seq = seq + '0'
                         sci = sci + '0'
 
-                    elif(bcor[4] == 12):
+                    elif(bcor[4] == 34):
                         seq = seq + '8'
                         sci = sci + '8'
 
-                    elif(bcor[4] == 15):
+                    elif(bcor[4] == 24):
+                        seq = seq + '\\alpha'
+                        sci = sci + '\u03B1'
+
+                    elif(bcor[4] == 17):
+                        seq = seq + '\\beta'
+                        sci = sci + '\u03B2'
+
+                    elif(bcor[4] == 12):
+                        seq = seq + '\gamma'
+                        sci = sci + '\u03B3'
+
+                    elif(bcor[4] == 28):
+                        seq = seq + '\Gamma'
+                        sci = sci + 'special.gamma'
+
+                    elif(bcor[4] == 19):
+                        seq = seq + '\zeta'
+                        sci = sci + 'special.zeta'
+
+                    elif(bcor[4] == 2):
                         seq = seq + ')'
                         sci = sci + ')'
 
@@ -371,11 +429,26 @@ def rectify_latex(latex):
             i += 3
             continue
 
+        if latex[i] == 'l' and latex[i+1] == '0':
+            latex_rectified = latex_rectified + latex[i] + 'o'
+            i += 2
+            continue
+
         try:
             if latex[i] == 's' and latex[i+7] == 'n':
 
                 latex_rectified += latex[i] + 'in'
                 i += 8
+                continue
+
+        except:
+            pass
+
+        try:
+            if latex[i] == 's' and latex[i+6] == 'n':
+
+                latex_rectified += latex[i] + 'in'
+                i += 7
                 continue
 
         except:
@@ -403,8 +476,9 @@ def rectify_scipy(scipy):
 
     scipy_rectified = ''
     blacklist_num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    blacklist_var = ['x', 'pi']
+    blacklist_var = ['x', 'pi', 'l']
     blacklist_trig = ['s', 't', 'c']
+    blacklist_par = [')']
 
     i = 0
     res_brackets = 0
@@ -413,6 +487,16 @@ def rectify_scipy(scipy):
         if i == (len(scipy) - 1):
             scipy_rectified += scipy[i]
             i += 1
+            continue
+
+        if scipy[i] == 'l' and scipy[i+1] == '0':
+            scipy_rectified += 'lo'
+            i += 2
+            continue
+
+        if scipy[i] == 'l' and scipy[i+1] == 'n':
+            scipy_rectified += 'log'
+            i += 2
             continue
 
         if (scipy[i] in blacklist_num and scipy[i + 1] in blacklist_var) or (scipy[i] in blacklist_var and scipy[i + 1] in blacklist_num):
@@ -424,6 +508,20 @@ def rectify_scipy(scipy):
             scipy_rectified += scipy[i] + '*'
             i += 1
             continue
+
+        if (scipy[i] in blacklist_par and scipy[i + 1] in blacklist_trig):
+            scipy_rectified += scipy[i] + '*'
+            i += 1
+            continue
+
+        if (scipy[i] in blacklist_par and scipy[i + 1] in blacklist_var):
+            scipy_rectified += scipy[i] + '*'
+            i += 1
+            continue
+
+        if scipy[i] == 'p' and scipy[i+1] == 'i' and scipy[i+2] == 'x':
+            scipy_rectified += 'pi*'
+            i += 2
 
         if scipy[i] == 'c' and scipy[i+1] == '0':
             scipy_rectified += scipy[i] + 'o'
@@ -445,6 +543,15 @@ def rectify_scipy(scipy):
             if scipy[i] == 's' and scipy[i+7] == 'n':
                 scipy_rectified += scipy[i] + 'in'
                 i += 8
+                continue
+
+        except:
+            pass
+
+        try:
+            if scipy[i] == 's' and scipy[i+6] == 'n':
+                scipy_rectified += scipy[i] + 'in'
+                i += 7
                 continue
 
         except:
