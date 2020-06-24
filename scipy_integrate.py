@@ -2,9 +2,9 @@ import scipy.integrate as integrate
 import scipy.special as special
 
 from numpy import sqrt, sin, cos, tan, pi, inf, exp, log, log10
-from algo_all_sym import *
+from algo_all_sym_with_greek import *
 
-image_path = "Test Images/test27.png"
+image_path = "Test Images/test37.png"
 
 (latex, scipy) = get_integral(image_path)
 

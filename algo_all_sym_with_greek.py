@@ -242,13 +242,15 @@ def func(xi,xf,yi,yf):
 
                     if idx_1 >= idx + 1:
 
-                        if bcor_1[4] == 25:
+                        if(((bcor_1[0]>xi)and(bcor_1[0]<xf))and((bcor_1[1]>yi) and (bcor_1[1]<yf))):
 
-                            brackets.append((bcor_1, idx_1))
+                            if bcor_1[4] == 25:
+
+                                brackets.append((bcor_1, idx_1))
                         
-                        if bcor_1[4] == 2:
+                            if bcor_1[4] == 2:
 
-                            brackets.append((bcor_1, idx_1))
+                                brackets.append((bcor_1, idx_1))
 
                     idx_1 += 1
 
