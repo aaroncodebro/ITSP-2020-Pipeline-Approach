@@ -40,7 +40,11 @@ header{
 	margin-top: 10px;
 }
 #three{
+	display:block;
 	margin-top: 50px;
+	margin-left:40%;
+	align:center;
+	text-align: center;
 }
 #four{
 	/* padding-left: 695px; */
@@ -50,24 +54,26 @@ header{
 	margin-top: 0px;
 	padding-left: 30%;
 	padding-top: 0px;
-	margin-bottom: 0px;
+	margin-bottom: 10px;
 }
 .box{
+	
 	background-color: none;
 	width: 30%;
-	align-items: center;
 	/* background-color: #ffff4d; */
 	background-image: linear-gradient(to left, red, orange);
+	padding: 5px auto 5px auto;
 	margin-left: 35%;
-	height: 200px;
+	height: 250px;
 	margin-top: 150px;
 	border-radius: 50px;
 	border: 3px solid #cc6600;
-}
+	display:flex;
+	flex-wrap: wrap;}
  
 
 .limit{
-	float: center;
+	
 	align-items: center;
 	padding: 50px;
 }
@@ -85,4 +91,17 @@ header{
 	margin-left: auto;
     margin-right: auto;
 
+}
+
+#limit_row{
+	padding-left: 10%;
+	
+}
+
+.ten{
+	padding: 10px;
+}
+
+#file_chose{
+	margin-bottom:20px;
 }
